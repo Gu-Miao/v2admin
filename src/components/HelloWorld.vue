@@ -1,58 +1,97 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+  <a-table :columns="columns" :data-source="data" bordered> </a-table>
 </template>
-
 <script>
+const data = [
+  {
+    key: '1',
+    name: 'John Brown',
+    age: 32,
+    tel: '0571-22098909',
+    phone: 18889898989,
+    address: 'New York No. 1 Lake Park',
+  },
+  {
+    key: '2',
+    name: 'Jim Green',
+    tel: '0571-22098333',
+    phone: 18889898888,
+    age: 42,
+    address: 'London No. 1 Lake Park',
+  },
+  {
+    key: '3',
+    name: 'Joe Black',
+    age: 32,
+    tel: '0575-22098909',
+    phone: 18900010002,
+    address: 'Sidney No. 1 Lake Park',
+  },
+  {
+    key: '4',
+    name: 'Jim Red',
+    age: 18,
+    tel: '0575-22098909',
+    phone: 18900010002,
+    address: 'London No. 2 Lake Park',
+  },
+  {
+    key: '5',
+    name: 'Jake White',
+    age: 18,
+    tel: '0575-22098909',
+    phone: 18900010002,
+    address: 'Dublin No. 2 Lake Park',
+  },
+]
+
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+  data() {
+    const columns = [
+      {
+        title: 'Name',
+        dataIndex: 'name',
+      },
+      {
+        title: 'Age',
+        dataIndex: 'age',
+      },
+      {
+        title: 'Home phone',
+        colSpan: 2,
+        dataIndex: 'tel',
+      },
+      {
+        title: 'Phone',
+        colSpan: 0,
+        dataIndex: 'phone',
+      },
+      {
+        title: 'Address',
+        dataIndex: 'address',
+        customRender: (value, row, index) => {
+          console.log(value, row, index)
+          const obj = {
+            children: value,
+            attrs: { rowSpan: 0 },
+          }
+          if (index === 0) {
+            obj.attrs.rowSpan = data.length
+            obj.children = (
+              <div>
+                <textarea placeholder="fuck you"></textarea>
+              </div>
+            )
+          }
+
+          return obj
+        },
+      },
+    ]
+    return {
+      data,
+      columns,
+    }
+  },
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
